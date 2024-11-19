@@ -1,13 +1,20 @@
-pip install moviepy openai-whisper pydub deep-translator gTTS
+python3.11 tested
+pip install numpy==2.0
+python3 -m pip install -U demucs
+pip install moviepy pydub gTTS deep-translator
+pip install coqui-tts
+pip install colorlog
 
 Make sure ffmpeg is installed and available in your system's PATH, as moviepy and pydub depend on it.
 # on Ubuntu or Debian
 sudo apt update && sudo apt install ffmpeg
 
-Audio Extraction: The video audio is extracted using moviepy.
-Transcription: whisper is used to transcribe audio with timestamps.
-Translation: deep-translator translates the transcription.
-Text-to-Speech: gTTS synthesizes each translated segment into audio.
-Combining Audio: The translated audio segments are combined and aligned with their original timestamps.
-Audio Replacement: The translated audio is merged with the original video using moviepy.
+- Extract audio from source video
+- Separate extracted audio to background sounds and voice
+- Transcribe to text from separated voice with time segments
+- Translate all segments by deep_translator by google
+- Learn pre-trained TTS model by source voice
+- Synthesize trained voice to translated text
+- Mix background sounds with synthesized segments
+- Replace translated audio with background to source video
 
