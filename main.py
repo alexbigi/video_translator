@@ -68,8 +68,18 @@ def learn_tts() -> TTS:
 # Step 2: Transcribe audio with timestamps using Whisper
 def transcribe_audio_with_timestamps(audio_path):
     log.debug("TRANSCRIBE AUDIO - PROCESS")
-    model = whisper.load_model("base")  # Choose model size: 'tiny', 'base', 'small', etc.
-    result = model.transcribe(audio_path, fp16=False)
+    model = whisper.load_model("turbo")  # Choose model size: 'tiny', 'base', 'small', 'medium', 'large', 'turbo'.
+    result = model.transcribe(audio_path)
+
+    # TODO auto detect source language
+    # make log-Mel spectrogram and move to the same device as the model
+    audio = whisper.load_audio(audio_path)
+    audio = whisper.pad_or_trim(audio)
+    mel = whisper.log_mel_spectrogram(audio).to(model.device)
+
+    # detect the spoken language
+    # _, probs = model.detect_language(mel)
+    # print(f"Detected language: {max(probs, key=probs.get)}")
 
     segments = []
     for segment in result['segments']:
